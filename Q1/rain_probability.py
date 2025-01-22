@@ -3,6 +3,19 @@ import random
 
 
 def generate_monthly_probs_noisy():
+    '''
+    Generate monthly probabilities with uniform added noise.
+    The probabilities are generated based on  seasonal probability of rain:
+    - January: 70%
+    - February: 65%
+    - March: 60%
+    - April: 50%
+    - May: 40%
+    - June: 35%
+    - July: 25%
+    - August: 25%
+    - September: 35%
+    '''
     # Start from january
     monthly_probs = [0.70, 0.65, 0.60, 0.50, 0.40, 0.35,
                      0.25, 0.25, 0.35, 0.50, 0.65, 0.70]
@@ -18,6 +31,18 @@ def generate_monthly_probs_noisy():
     return p
 
 def prob_rain_more_than_n ( p: List[float], n: int ) -> float:
+    '''
+    Calculate the probability of raining more than n days in a year.
+
+    :param p List[float]:
+        List of daily probabilities of raining
+    :param n int:
+        Number of days
+
+    :return float:
+        Probability of raining more than n days
+    '''
+
     days = len(p)
     dp_prev = [0] * (days+1)
     dp_curr = [0] * (days+1)
@@ -38,6 +63,7 @@ def prob_rain_more_than_n ( p: List[float], n: int ) -> float:
 
 if __name__ == '__main__':
     random.seed(10)
+    # Uniform probabilities are unrealistic and the probability changes sharply on a threshold.
     # epsilon = 1e-10
     # p = [random.uniform(epsilon, 1 - epsilon) for _ in range(365)]
     p = generate_monthly_probs_noisy()

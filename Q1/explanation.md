@@ -67,9 +67,7 @@ To calculate the probability of having more than $n$ rainy days using dynamic pr
 
 This approach efficiently calculates the required probability without explicitly generating all subsets, significantly reducing computational overhead.
 
-<div align="center">
-  <img src="../images/dp_visualization.png" alt="Dynamic Programming Visualization" width="400">
-</div>
+![Dynamic Programming Visualization](../images/dp_visualization.png)
 ---
 
 ## Interpreting the Results

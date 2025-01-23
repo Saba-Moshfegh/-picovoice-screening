@@ -1,53 +1,47 @@
-from phoneme_trie import Trie, trie_from_dict
+from phoneme_trie import trie_from_dict
 from typing import List
 
 class WordCombsWithPhonemes:
-
+    '''
+    Class to find all possible ways to segment the given phoneme list into words found in the trie by using the trie
+    from words dictionary.
+    '''
     def __init__(self, word_dict):
         self.trie = trie_from_dict(word_dict)
 
-
     def find_word_combos_with_pronunciation(self, phonemes: List[str]) -> List[List[str]]:
+        """
+        Returns a list of all possible ways to segment the given phoneme list
+        into words found in the trie. Note that all phonemes should be used and their order should be preserved.
 
-        return self._combine_words(self._find_all_words(phonemes))
+        :param phonemes: List of phonemes
+        :return : List of all possible segmentations
 
+        """
 
-    def _find_all_words(self, phonemes: List[str]) -> List[List[str]]:
+        def backtrack(start: int) -> List[List[str]]:
+            # If we've consumed all phonemes, there's exactly one "empty" segmentation
+            if start == len(phonemes):
+                return [[]]
 
-        result = []
-        def backtrack(start: int, end: int):
-            if end == len(phonemes)+1:
-                return
-            word = self.trie.search_phoneme(phonemes[start:end])
-            if word:
-                result.append(word)
-                backtrack(end, end+1)
-            else:
-                end += 1
-                if end == len(phonemes)+1:
-                    result.append(False)
-                backtrack(start, end)
+            results = []
 
-        backtrack(0, 1)
-        if False in result:
-            return []
-        else:
-            return result
+            # Try every possible end index
+            for end in range(start + 1, len(phonemes) + 1):
+                # See which words match phonemes[start:end]
+                word_list = self.trie.search_phoneme(phonemes[start:end])
+                if word_list:  # It's not empty if there's at least one valid word
+                    # Recurse on the remainder
+                    suffix_segmentations = backtrack(end)
+                    # For each valid word, combine with each valid segmentation of the suffix
+                    for w in word_list:
+                        for seg in suffix_segmentations:
+                            results.append([w] + seg)
 
-    def _combine_words(self, all_words: List[List[str]]) -> List[List[str]] | None:
-        all_combs = []
-        if not all_words:
-            print('There is no valid combination')
-            return
-        def backtrack(comb, index):
-            if index == len(all_words):
-                return all_combs.append(comb)
-            for member in all_words[index]:
-                backtrack(comb + [member], index+1)
+            return results
 
-        backtrack([], 0)
-
-        return all_combs
+        # Start backtracking from index 0
+        return backtrack(0)
 
 if __name__ == '__main__':
 
@@ -55,10 +49,32 @@ if __name__ == '__main__':
                  'BOOK': [['B', 'UH', 'K']],
                  'THEIR': [['DH', 'EH', 'R']],
                  'THERE': [['DH', 'EH', 'R']],
-                 'TOMATO': [['T', 'AH', 'M', 'AA', 'T', 'OW'], ['T', 'AH', 'M', 'EY', 'T', 'OW']]}
+                 'TOMATO': [['T', 'AH', 'M', 'AA', 'T', 'OW'], ['T', 'AH', 'M', 'EY', 'T', 'OW']],
+                 'HOMEMADE': [['HH', 'OW', 'M', 'AH', 'M', 'EY', 'D']],
+                 'HOME': [['HH', 'OW', 'M']],
+                 'MADE': [['M', 'EY', 'D']],
+                 'FIREMAN': [['F', 'AY', 'ER', 'M', 'AH', 'N']],
+                 'FIRE': [['F', 'AY', 'ER']],
+                 'MAN': [['M', 'AH', 'N']],
+    }
 
     obj = WordCombsWithPhonemes(word_dict)
+    # Test 1
+    assert obj.find_word_combos_with_pronunciation([]) == []
 
-    obj.find_word_combos_with_pronunciation(['DH', 'EH', 'R', 'DH', 'EH'])
+    # Test 2
+    assert obj.find_word_combos_with_pronunciation(['DH', 'EH', 'R', 'DH', 'EH']) == []
+
+    # Test 3
     assert( obj.find_word_combos_with_pronunciation(['DH', 'EH', 'R', 'DH', 'EH', 'r'])
                == [["THEIR", "THEIR"],["THEIR", "THERE"],["THERE", "THEIR"],["THERE", "THERE"]])
+
+    # Test 4
+    assert (obj.find_word_combos_with_pronunciation(
+        ['DH', 'EH', 'R', 'HH', 'OW', 'M', 'AH', 'M', 'EY', 'D'])
+            == [["THEIR", "HOMEMADE"],["THERE", "HOMEMADE"]])
+
+    # Test 5
+    assert (obj.find_word_combos_with_pronunciation(
+        ['DH', 'EH', 'R', 'F', 'AY', 'ER', 'M', 'AH', 'N'])
+            == [["THEIR", "FIRE", "MAN"], ["THEIR", "FIREMAN"],["THERE", "FIRE", "MAN"], ["THERE", "FIREMAN"]])

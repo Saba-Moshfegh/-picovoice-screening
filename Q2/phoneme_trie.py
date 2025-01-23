@@ -1,16 +1,33 @@
 from typing import List
 
 class TrieNode:
+    '''
+    Trie node class
+    '''
     def __init__(self):
         self.children = {}
         self.endWords = []
 
 class Trie:
+    '''
+    Trie class
+    '''
 
     def __init__(self):
         self.root = TrieNode()
 
     def insert_word(self, phoneme:List[str], word:str):
+        '''
+        Insert word in trie using its phonemes.
+
+        :param phoneme List[str]:
+            List of phonemes
+        :param word str:
+            Word to insert
+
+        :return:
+            None
+        '''
 
         curr_node = self.root
         for ph in phoneme:
@@ -23,7 +40,16 @@ class Trie:
 
         curr_node.endWords.append(word)
 
-    def search_phoneme(self, phoneme:List[str]):
+    def search_phoneme(self, phoneme:List[str]) -> List[str]:
+        '''
+        Search phoneme sequence in trie and return the words if found.
+
+        :param phoneme List[str]:
+            List of phonemes to search
+
+        :return List[str]:
+            List of words if found
+        '''
 
         curr_node = self.root
         for ph in phoneme:
@@ -36,6 +62,15 @@ class Trie:
         return curr_node.endWords
 
 def print_trie(node: TrieNode):
+    '''
+    Print trie nodes for debugging purposes.
+
+    :param node TrieNode:
+        starting node
+
+    :return:
+        None
+    '''
 
     if node.endWords:
         print(node.endWords)
@@ -45,6 +80,15 @@ def print_trie(node: TrieNode):
         print_trie(node)
 
 def trie_from_dict(word_phoneme_dict: dict):
+    '''
+    Create a trie from dictionary of words as keys and their phonemes list as values.
+
+    :param word_phoneme_dict dict:
+        Dictionary of words and their phonemes list
+
+    :return Trie:
+        Trie object
+    '''
 
     obj = Trie()
 

@@ -66,29 +66,29 @@ $$
    - Transitioning to the next label.  
    - Skipping over the blank token if the current state and the previous state emit different labels.  
 
-   $$
-   \alpha(t, s) = P(x_t = \text{label at } s) \cdot \Big(
-       \alpha(t-1, s) +
-       \alpha(t-1, s-1) +
-       \alpha(t-1, s-2) \text{ (if valid)}
-   \Big).
-   $$
+$$
+\alpha(t, s) = P(x_t = \text{label at } s) \cdot \Big(
+    \alpha(t-1, s) +
+    \alpha(t-1, s-1) +
+    \alpha(t-1, s-2) \text{ (if valid)}
+\Big).
+$$
 
 3. **Final Probability**:  
    The forward algorithm ends by summing the probabilities of reaching the final states of the extended sequence:
 
-   $$
-   P(Y \mid X) = \alpha(T-1, S-1) + \alpha(T-1, S-2),
-   $$
+$$
+P(Y \mid X) = \alpha(T-1, S-1) + \alpha(T-1, S-2),
+$$
 
    where $S$ is the length of the extended label sequence.
 
 4. **Use in Training**:  
    The CTC loss is the negative log probability of the target sequence given the input:
 
-   $$
-   \text{CTC Loss} = -\log\bigl(P(Y \mid X)\bigr).
-   $$
+$$
+\text{CTC Loss} = -\log\bigl(P(Y \mid X)\bigr).
+$$
 
 ---
 

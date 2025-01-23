@@ -24,9 +24,6 @@ class Trie:
             List of phonemes
         :param word str:
             Word to insert
-
-        :return:
-            None
         '''
 
         curr_node = self.root
@@ -67,9 +64,6 @@ def print_trie(node: TrieNode):
 
     :param node TrieNode:
         starting node
-
-    :return:
-        None
     '''
 
     if node.endWords:

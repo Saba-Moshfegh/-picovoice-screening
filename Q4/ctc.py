@@ -5,7 +5,7 @@ from typing import List
 
 def extend_labels(labels: List[int], blank: int=0 ) -> List[int]:
     '''
-    Adds blank label between each label and at the beginning and end
+    Adds blank label between each label and at the beginning and end.
 
     :param labels List[int]:
         Labels as their indices to be extended
@@ -13,7 +13,7 @@ def extend_labels(labels: List[int], blank: int=0 ) -> List[int]:
         The integer index of the blank label
 
     :return List[int]:
-        List of extended labels with blank in between each label and at the beginning and end.
+        List of extended labels with blank in between each label and at the beginning and end
     '''
 
     extended = [blank]
@@ -30,7 +30,7 @@ def forward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarra
     :param log_probs np.ndarray:
         Log probabilities of the input sequence
     :param extended_labels List[int]:
-        List of extended labels with blank in between each label and at the beginning and end.
+        List of extended labels with blank in between each label and at the beginning and end
 
     :return np.ndarray:
         Forward pass matrix alpha
@@ -68,7 +68,6 @@ def backward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarr
 
     :return np.ndarray:
         Backward pass matrix beta
-
     '''
 
     T, V = log_probs.shape
@@ -91,7 +90,18 @@ def backward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarr
     return beta
 
 
-def ctc_loss_custom(log_probs, extended):
+def ctc_loss_custom(log_probs: np.ndarray, extended: List[int]) -> float:
+    '''
+    Compute the CTC loss using the forward and backward pass.
+
+    :param log_probs np.ndarray:
+        log probabilities of the input sequence
+    :param extended_labels List[int]:
+        List of extended labels with blank in between each label and at the beginning and end
+
+    :return float:
+        CTC loss
+    '''
 
     alpha = forward_pass(log_probs, extended)
     beta = backward_pass(log_probs, extended)
@@ -128,11 +138,9 @@ def compute_tf_ctc_loss(logits: np.ndarray, labels: List[int], blank: int = 0) -
     dense_shape = np.array([1, len(labels)], dtype=np.int64)
     tf_labels = tf.SparseTensor(indices=indices, values=values, dense_shape=dense_shape)
 
-    # Define sequence lengths
     label_length = [len(labels)]
     logit_length = [T]
 
-    # Compute TensorFlow CTC loss
     tf_loss = tf.nn.ctc_loss(
         labels=tf_labels,
         logits=tf_logits,
@@ -146,6 +154,15 @@ def compute_tf_ctc_loss(logits: np.ndarray, labels: List[int], blank: int = 0) -
     return tf_loss_val
 
 def get_char_indices_and_add_one(input_string: str) -> List[int]:
+    '''
+    Get indices of characters in the input string and make a list from their indices plus one.
+
+    :param input_string:
+        Input string
+
+    :return List[int]:
+        List of indices of characters in the input string plus one
+    '''
 
     indices = [i + 1 for i in range(len(input_string))]
     return indices

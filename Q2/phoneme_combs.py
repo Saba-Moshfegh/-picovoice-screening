@@ -6,6 +6,7 @@ class WordCombsWithPhonemes:
     Class to find all possible ways to segment the given phoneme list into words found in the trie by using the trie
     from words dictionary.
     '''
+
     def __init__(self, word_dict):
         self.trie = trie_from_dict(word_dict)
 
@@ -15,8 +16,8 @@ class WordCombsWithPhonemes:
         into words found in the trie. Note that all phonemes should be used and their order should be preserved.
 
         :param phonemes: List of phonemes
-        :return : List of all possible segmentations
 
+        :return : List of all possible segmentations
         """
 
         if not phonemes:

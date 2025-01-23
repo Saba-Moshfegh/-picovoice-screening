@@ -19,21 +19,20 @@ class WordCombsWithPhonemes:
 
         """
 
+        if not phonemes:
+            return []
+
         def backtrack(start: int) -> List[List[str]]:
-            # If we've consumed all phonemes, there's exactly one "empty" segmentation
+
             if start == len(phonemes):
                 return [[]]
 
             results = []
 
-            # Try every possible end index
             for end in range(start + 1, len(phonemes) + 1):
-                # See which words match phonemes[start:end]
                 word_list = self.trie.search_phoneme(phonemes[start:end])
-                if word_list:  # It's not empty if there's at least one valid word
-                    # Recurse on the remainder
+                if word_list:
                     suffix_segmentations = backtrack(end)
-                    # For each valid word, combine with each valid segmentation of the suffix
                     for w in word_list:
                         for seg in suffix_segmentations:
                             results.append([w] + seg)
@@ -59,6 +58,7 @@ if __name__ == '__main__':
     }
 
     obj = WordCombsWithPhonemes(word_dict)
+
     # Test 1
     assert obj.find_word_combos_with_pronunciation([]) == []
 

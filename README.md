@@ -5,7 +5,7 @@ In this repo I provided answer to 3 screening questions of Picovoise.
 Each questions' folder contains codes and brief technical explanations
 of solutions. 
 
-## Questions
+## Question 1
 - The probability of rain on a given calendar day in Vancouver is p[i], where i is the day's index. For
 example, p[0] is the probability of rain on January 1st, and p[10] is the probability of precipitation on January 11th. Assume
 the year has 365 days (i.e., p has 365 elements). What is the chance it rains more than n (e.g., 100) days in Vancouver?

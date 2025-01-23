@@ -56,13 +56,13 @@ $$
 $$
 P(\text{more than } n \, \text{rainy days}) = \sum_{j=n}^{365} dp[365][j]
 $$
-   - To ensure the probability is valid numerically, the final probability is adjusted as:
+- To ensure the probability is valid numerically, the final probability is adjusted as:
 $$
-     P = 
-     \begin{cases} 
-     1, & \text{if } P > 1 \\
-     P, & \text{otherwise}
-     \end{cases}
+P = 
+\begin{cases} 
+1, & \text{if } P > 1 \\
+P, & \text{otherwise}
+\end{cases}
 $$
 
 This approach efficiently calculates the required probability without explicitly generating all subsets, significantly reducing computational overhead.

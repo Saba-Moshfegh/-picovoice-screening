@@ -149,4 +149,4 @@ $$
 ## References
 
 - [Distill: Connectionist Temporal Classification (CTC)](https://distill.pub/2017/ctc/)  
-  This page provides an excellent interactive explanation of CTC and its algorithms. A picture from this page was captured and included for this report.
+  The pictures in this report are from this page.

@@ -13,6 +13,8 @@ Where:
 
 However, calculating this directly requires generating all subsets of size $k, k+1, \dots, n$, which, for 365 days, becomes computationally expensive and can lead to overflow.
 
+---
+
 ## Optimized Approach Using Dynamic Programming
 
 To avoid this inefficiency, we can use **dynamic programming** and the recursive relationship of combinations. Specifically, the probability of it raining exactly $j$ days out of $i$ days can be computed more efficiently using the recursive formula for combinations:
@@ -26,50 +28,58 @@ Here:
 
 By leveraging this relationship, we can break down the problem into smaller subproblems, avoiding the need to explicitly compute all subsets. This significantly reduces computational overhead while maintaining accuracy.
 
+---
+
 ### Formula for Calculating $P$
 
 To calculate the probability of having more than $n$ rainy days using dynamic programming, the following recursive formula is applied:
 
 1. **Initialization**:
    - For day zero (before the first day), the probability of having zero rainy days is $1$, and the probability of having any other number of rainy days is $0$:
+
 $$
 dp[0][0] = 1, \quad dp[0][j] = 0 \, \text{for} \, 0 < j \leq 365
 $$
 
 2. **Dynamic Programming Transition**:
-   - For each day $i$ and for each possible number of rainy days $j$ (from 0 to $i$), the calculation depends on whether the current day rains:  
+   - For each day $i$ and for each possible number of rainy days $j$ (from 0 to $i$), the calculation depends on whether the current day rains:
 
-If $j = 0$:  
+If $j = 0$:
 
-$
+$$
 dp[i][0] = (1 - p[i - 1]) \cdot dp[i-1][j]
-$
-If $j > 0$:  
+$$
 
-$
+If $j > 0$:
+
+$$
 dp[i][j] = (1 - p[i - 1]) \cdot dp[i-1][j] + p[i - 1] \cdot dp[i-1][j - 1]
-$
+$$
 
 3. **Final Calculation**:  
-After processing all possible values of $j$ for all days, the probability of having more than $n$ rainy days is computed as:  
+   - After processing all possible values of $j$ for all days, the probability of having more than $n$ rainy days is computed as:
 
-$
+$$
 P(\text{more than } n \, \text{rainy days}) = \sum_{j=n}^{365} dp[365][j]
-$
+$$
 
-- To ensure the probability is valid numerically, the final probability is adjusted as:  
+   - To ensure the probability is valid numerically, the final probability is adjusted as:
 
-$
+$$
 P = 
 \begin{cases} 
 1, & \text{if } P > 1 \\
 P, & \text{otherwise}
 \end{cases}
-$
+$$
 
 This approach efficiently calculates the required probability without explicitly generating all subsets, significantly reducing computational overhead.
 
+---
+
 ![Dynamic Programming Visualization](../images/dp_visualization.png)
+
+---
 
 ## Interpreting the Results
 

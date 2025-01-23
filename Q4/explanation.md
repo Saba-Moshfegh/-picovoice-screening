@@ -137,7 +137,7 @@ $$
 $$
 \frac{\partial \text{Loss}}{\partial P(x_t = v)} 
  = P(x_t = v) 
-   - \sum_{s \in \text{States}(v)} \text{Posterior}(t, s),
+\sum_{s \in \text{States}(v)} \text{Posterior}(t, s),
 $$
 
    where $\text{States}(v)$ refers to all states in the extended label sequence that emit the symbol $v$.

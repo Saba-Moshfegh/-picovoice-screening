@@ -30,12 +30,12 @@ CTC calculates the probability of having a character from the alphabet or a blan
 
    The probability of the target sequence \( Y \) given the input sequence \( X \) is calculated as:
 
-   \[
+   $$
    P(Y \mid X) = \sum_{\pi \in \mathcal{B}^{-1}(Y)} P(\pi \mid X),
-   \]
+   $$
 
    where:
-   - \( Y \): The target sequence (e.g., "cat").
+   - $ Y $: The target sequence (e.g., "cat").
    - \( \mathcal{B}^{-1}(Y) \): The set of all valid alignments \( \pi \) that collapse to \( Y \) using the CTC decoding function \( \mathcal{B} \). These alignments include blank tokens and repeated characters.
    - \( P(\pi \mid X) \): The probability of a specific alignment \( \pi \) given the input sequence \( X \).
 

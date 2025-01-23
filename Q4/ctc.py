@@ -6,6 +6,7 @@ from typing import List
 def extend_labels(labels: List[int], blank: int=0 ) -> List[int]:
     '''
     Adds blank label between each label and at the beginning and end
+
     :param labels List[int]:
         Labels as their indices to be extended
     :param blank int:
@@ -25,6 +26,7 @@ def extend_labels(labels: List[int], blank: int=0 ) -> List[int]:
 def forward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarray:
     '''
     Compute the forward pass of the CTC algorithm.
+
     :param log_probs np.ndarray:
         Log probabilities of the input sequence
     :param extended_labels List[int]:
@@ -55,7 +57,19 @@ def forward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarra
     return alpha
 
 
-def backward_pass(log_probs, extended_labels):
+def backward_pass(log_probs: np.ndarray, extended_labels: List[int]) -> np.ndarray:
+    '''
+    Compute the backward pass of the CTC algorithm.
+
+    :param log_probs:
+        log probabilities of the input sequence
+    :param extended_labels List[int]:
+        List of extended labels with blank in between each label and at the beginning and end
+
+    :return np.ndarray:
+        Backward pass matrix beta
+
+    '''
 
     T, V = log_probs.shape
     S = len(extended_labels)
@@ -77,7 +91,7 @@ def backward_pass(log_probs, extended_labels):
     return beta
 
 
-def ctc_loss_custom(log_probs, extended, blank=0):
+def ctc_loss_custom(log_probs, extended):
 
     alpha = forward_pass(log_probs, extended)
     beta = backward_pass(log_probs, extended)
@@ -91,7 +105,20 @@ def ctc_loss_custom(log_probs, extended, blank=0):
     return -ll
 
 
-def compute_tf_ctc_loss(logits, labels, blank=0):
+def compute_tf_ctc_loss(logits: np.ndarray, labels: List[int], blank: int = 0) -> float:
+    '''
+    Compute the CTC loss using TensorFlow's CTC loss function.
+
+    :param logits np.ndarray:
+        raw logits of nn output
+    :param labels:
+        List of indices of the labels
+    :param blank:
+        Index of the blank label
+
+    :return float:
+        CTC loss computed using TensorFlow
+    '''
 
     T, V = logits.shape
     tf_logits = tf.convert_to_tensor(logits.reshape(T, 1, V), dtype=tf.float32)
@@ -127,14 +154,14 @@ if __name__ == "__main__":
 
     label = 'cat'
     labels = get_char_indices_and_add_one(label)
-    extended_labels = extend_labels(labels, blank=0)
+    extended_label = extend_labels(labels, blank=0)
 
     T, V = 10, len(labels) + 1
     np.random.seed(42)
     raw_logits = np.random.randn(T, V)
-    log_probs = tf.nn.log_softmax(raw_logits, axis=-1).numpy()
+    log_probabilities = tf.nn.log_softmax(raw_logits, axis=-1).numpy()
 
-    custom_loss_val = ctc_loss_custom(log_probs, extended_labels, blank=0)
+    custom_loss_val = ctc_loss_custom(log_probabilities, extended_label)
     tf_ctc_loss_val = compute_tf_ctc_loss(raw_logits, labels, blank=0)
 
     assert np.isclose(custom_loss_val, tf_ctc_loss_val, atol=1e-5), "CTC Losses do not match."

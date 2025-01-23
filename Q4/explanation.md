@@ -6,13 +6,17 @@ Connectionist Temporal Classification (CTC) is a method used in sequence-to-sequ
 sequences have **different lengths**. It is particularly effective for tasks where the alignment between the input and 
 output is unknown, such as speech-to-text, handwriting recognition, or other time-series-to-symbol problems.
 
-CTC gets the probability of having a character in alphabet or a blank token at each timestep from a neural network model.
+CTC calculates the probability of having a character from the alphabet or a blank token at each timestep from a neural network model.
 A recurrent neural network (RNN) is a good choice for model since it considers the sequential nature of the input data.
 Then, it calculates the probability of the target sequence by summing over all possible alignments. This allows the model 
 to output a sequence of probabilities over a vocabulary (including a special blank token) at each timestep and computes 
 the probability of the target sequence by summing over all possible alignments. 
 This enables the model to focus on finding the **most probable path** that extends a character or blank token
 in order to align the input with the target.
+
+<div align="center">
+  <img src="../images/CTC1.png" width="500">
+</div>
 
 ## Algorithm Steps
 
@@ -28,6 +32,9 @@ labels to input frames without requiring a one-to-one alignment between input an
    - **Example**: For the target sequence `cat`, a valid alignment might look like `[c, blank, a, blank, blank, t, blank]`.
    We call this label extended label. 
 
+<div align="center">
+  <img src="../images/CTC3.png" width="500">
+</div>
 
 3. **Most Probable Path**:  
    During training, the model examines all paths that collapse into the target sequence `cat` by removing blank tokens 
@@ -46,6 +53,10 @@ where:
 - $\mathcal{B}^{-1}(Y)$: The set of all valid alignments $\pi$ that collapse to $Y$ using the CTC decoding function
 $\mathcal{B}$. These alignments include blank tokens and repeated characters.
 - $P(\pi \mid X)$: The probability of a specific alignment $\pi$ given the input sequence $X$.
+
+<div align="center">
+  <img src="../images/CTC2.png" width="500">
+</div>
 
 ## Forward Algorithm
 
@@ -137,11 +148,12 @@ The combination of the forward and backward algorithms helps compute the **gradi
 which is used to adjust the network's parameters during backpropagation.
 
 1. **Gradient Computation**:  
-The gradient of the CTC loss with respect to the network’s output probabilities is:
+he gradient of the CTC loss with respect to the network’s predicted probabilities $P(x_t = v)$  is given by:
 $$
 \frac{\partial \text{Loss}}{\partial P(x_t = v)} = P(x_t = v) - \sum_{s \in \text{States}(v)} \text{Posterior}(t, s),
 $$
 where $\text{States}(v)$ refers to all states in the extended label sequence that emit the symbol $v$.
 
+
 2. **Gradient Updates**: The gradient of the loss is computed and used to update the network parameters, 
-3. improving alignment and predictions over time.
+improving alignment and predictions over time.

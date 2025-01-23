@@ -9,7 +9,7 @@ Each **end node** of the trie stores a **list of words** corresponding to that p
 contain the list `["THEIR", "THERE"]`.
 
 <div align="center">
-  <img src="../images/trie_visualization.png" alt="Dynamic Programming Visualization" width="500">
+  <img src="../images/trie_visualization.png" width="500">
 </div>
 
 ### Step 2: Use a Recursive Function to Find Word Combinations

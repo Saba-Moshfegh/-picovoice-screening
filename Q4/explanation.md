@@ -52,13 +52,13 @@ The **forward algorithm** computes the total probability of all paths through th
 1. **Initialization**:  
    The algorithm starts with the blank token or the first label, as no paths exist before the first character of the sequence:
 
-   $$
-   \alpha(0, 0) = P(x_0 = \text{blank}),
-   $$
+$$
+\alpha(0, 0) = P(x_0 = \text{blank}),
+$$
 
-   $$
-   \alpha(0, 1) = P(x_0 = \text{first label}),
-   $$
+$$
+\alpha(0, 1) = P(x_0 = \text{first label}),
+$$
 
 2. **Recurrence**:  
    At each timestep, $\alpha(t, s)$ is computed by summing the probabilities of transitioning from all valid previous states to the current state. This includes:  

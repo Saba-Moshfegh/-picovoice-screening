@@ -47,7 +47,7 @@ $$
 
 ## Forward Algorithm
 
-The **forward algorithm** computes the total probability of all paths through the extended label sequence up to a given timestep recursively. The forward variable, denoted as $ \alpha(t, s)$, represents the probability of being at state $s$ of the extended sequence at time $t$. This ensures that all valid transitions from the current state to the next are considered.
+The **forward algorithm** computes the total probability of all paths through the extended label sequence up to a given timestep recursively. The forward variable, denoted as $\alpha(t, s)$, represents the probability of being at state $s$ of the extended sequence at time $t$. This ensures that all valid transitions from the current state to the next are considered.
 
 1. **Initialization**:  
    The algorithm starts with the blank token or the first label, as no paths exist before the first character of the sequence:
@@ -94,7 +94,7 @@ $$
 
 ## Backward Algorithm
 
-The **backward algorithm** computes the total probability of completing the sequence from a given state at a given timestep. The backward variable, denoted as $ \beta(t, s)$, represents the probability of completing the target sequence starting from state $s$ at time $t$.
+The **backward algorithm** computes the total probability of completing the sequence from a given state at a given timestep. The backward variable, denoted as $\beta(t, s)$, represents the probability of completing the target sequence starting from state $s$ at time $t$.
 
 1. **Initialization**:  
    At the last timestep $t = T-1$:

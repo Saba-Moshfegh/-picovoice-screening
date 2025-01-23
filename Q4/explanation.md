@@ -17,6 +17,7 @@ CTC calculates the probability of having a character from the alphabet or a blan
 1. **RNN Output**:  
    The neural network produces raw logits, which are converted into probabilities using a softmax function. For simplicity in our implementation, only the probabilities for label characters are computed since only they are used in forward and backward algorithms. We avoid generating probabilities for all possible characters. Note that in the code, softmax probabilities are used for RNN outputs, and log probabilities are used in recursive algorithms to prevent numerical issues such as underflow.
 
+
 2. **Blank Token**:  
    CTC introduces a special blank token that represents the absence of output at a timestep. This allows the model to match labels to input frames without requiring a one-to-one alignment between input and output sequences.  
    - **Example**: For the target sequence `cat`, a valid alignment might look like `[c, blank, a, blank, blank, t, blank]`. This is referred to as the extended label.
@@ -25,10 +26,11 @@ CTC calculates the probability of having a character from the alphabet or a blan
   <img src="../images/CTC3.png" width="500">
 </div>
 
+
 3. **Most Probable Path**:  
    During training, the model examines all paths that collapse into the target sequence `cat` by removing blank tokens and repeated characters. Note that for a repeated character, a blank token must separate them in the alignment to count as two distinct values. The most likely path is the one with the highest probability. The conditional probability of a given labeling is defined as the sum of the probabilities of all paths corresponding to it.
 
-   The probability of the target sequence \( Y \) given the input sequence \( X \) is calculated as:
+   The probability of the target sequence $ Y $ given the input sequence $X$ is calculated as:
 
    $$
    P(Y \mid X) = \sum_{\pi \in \mathcal{B}^{-1}(Y)} P(\pi \mid X),
@@ -36,8 +38,8 @@ CTC calculates the probability of having a character from the alphabet or a blan
 
    where:
    - $ Y $: The target sequence (e.g., "cat").
-   - \( \mathcal{B}^{-1}(Y) \): The set of all valid alignments \( \pi \) that collapse to \( Y \) using the CTC decoding function \( \mathcal{B} \). These alignments include blank tokens and repeated characters.
-   - \( P(\pi \mid X) \): The probability of a specific alignment \( \pi \) given the input sequence \( X \).
+   - $ \mathcal{B}^{-1}(Y) $: The set of all valid alignments $ \pi $ that collapse to $ Y $ using the CTC decoding function $ \mathcal{B} $. These alignments include blank tokens and repeated characters.
+   - $ P(\pi \mid X) $: The probability of a specific alignment \( \pi \) given the input sequence $ X $.
 
 <div align="center">
   <img src="../images/CTC2.png" width="500">
@@ -47,19 +49,19 @@ CTC calculates the probability of having a character from the alphabet or a blan
 
 ## Forward Algorithm
 
-The **forward algorithm** computes the total probability of all paths through the extended label sequence up to a given timestep recursively. The forward variable, denoted as \( \alpha(t, s) \), represents the probability of being at state \( s \) of the extended sequence at time \( t \). This ensures that all valid transitions from the current state to the next are considered.
+The **forward algorithm** computes the total probability of all paths through the extended label sequence up to a given timestep recursively. The forward variable, denoted as $ \alpha(t, s) $, represents the probability of being at state \( s \) of the extended sequence at time \( t \). This ensures that all valid transitions from the current state to the next are considered.
 
 1. **Initialization**:  
    The algorithm starts with the blank token or the first label, as no paths exist before the first character of the sequence:
-   \[
+   $$
    \alpha(0, 0) = P(x_0 = \text{blank}),
-   \]
-   \[
+   $$
+   $$
    \alpha(0, 1) = P(x_0 = \text{first label}),
-   \]
+   $$
 
 2. **Recurrence**:  
-   At each timestep, \( \alpha(t, s) \) is computed by summing the probabilities of transitioning from all valid previous states to the current state. This includes:  
+   At each timestep, $ \alpha(t, s) $ is computed by summing the probabilities of transitioning from all valid previous states to the current state. This includes:  
    - Staying in the same state.  
    - Transitioning to the next label.  
    - Skipping over the blank token if the current state and the previous state emit different labels.  

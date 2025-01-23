@@ -13,8 +13,6 @@ Where:
 
 However, calculating this directly requires generating all subsets of size $k, k+1, \dots, n$, which, for 365 days, becomes computationally expensive and can lead to overflow.
 
----
-
 ## Optimized Approach Using Dynamic Programming
 
 To avoid this inefficiency, we can use **dynamic programming** and the recursive relationship of combinations. Specifically, the probability of it raining exactly $j$ days out of $i$ days can be computed more efficiently using the recursive formula for combinations:
@@ -28,7 +26,6 @@ Here:
 
 By leveraging this relationship, we can break down the problem into smaller subproblems, avoiding the need to explicitly compute all subsets. This significantly reduces computational overhead while maintaining accuracy.
 
----
 
 ### Formula for Calculating $P$
 
@@ -75,11 +72,9 @@ $$
 
 This approach efficiently calculates the required probability without explicitly generating all subsets, significantly reducing computational overhead.
 
----
 
 ![Dynamic Programming Visualization](../images/dp_visualization.png)
 
----
 
 ## Interpreting the Results
 

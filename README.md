@@ -1,4 +1,4 @@
-# -picovoice-screening
+# Picovoice Screening
 
 ## Overview
 In this repo I provided answer to 3 screening questions of Picovoise.
@@ -6,7 +6,7 @@ Each questions' folder contains codes and brief technical explanations
 of solutions. 
 
 ## Question 1
-- The probability of rain on a given calendar day in Vancouver is p[i], where i is the day's index. For
+The probability of rain on a given calendar day in Vancouver is p[i], where i is the day's index. For
 example, p[0] is the probability of rain on January 1st, and p[10] is the probability of precipitation on January 11th. Assume
 the year has 365 days (i.e., p has 365 elements). What is the chance it rains more than n (e.g., 100) days in Vancouver?
 Write a function that accepts p (probabilities of rain on a given calendar day) and n as input arguments and returns the
@@ -17,7 +17,8 @@ pass
 ```
 [Question 1 Explanation](Q1/explanation.md)
 
-- A phoneme is a sound unit (similar to a character for text). We have an extensive pronunciation
+## Question 2
+A phoneme is a sound unit (similar to a character for text). We have an extensive pronunciation
 dictionary (think millions of words). Below is a snippet:
 
 ABACUS AE B AH K AH S  
@@ -38,4 +39,10 @@ pass
 
 ```
 [Question 2 Explanation](Q2/explanation.md)
-- [Question 4 Explanation](Q4/explanation.md)
+
+## Question 4
+ Implement CTC as paper Connectionist Temporal Classification: Labelling Unsegmented
+Sequence Data with Recurrent Neural Networks describes. Your implementation should support both forward and
+backward propagation operations.
+
+[Question 4 Explanation](Q4/explanation.md)

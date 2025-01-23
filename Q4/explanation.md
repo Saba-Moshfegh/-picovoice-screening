@@ -99,33 +99,33 @@ The **backward algorithm** computes the total probability of completing the sequ
 1. **Initialization**:  
    At the last timestep $t = T-1$:
 
-   $$
-   \beta(T-1, S-1) = P(x_{T-1} = \text{last label}),
-   $$
+$$
+\beta(T-1, S-1) = P(x_{T-1} = \text{last label}),
+$$
 
-   $$
-   \beta(T-1, S-2) = P(x_{T-1} = \text{second-to-last label}),
-   $$
+$$
+\beta(T-1, S-2) = P(x_{T-1} = \text{second-to-last label}),
+$$
 
    and all other states are initialized to $0$.
 
 2. **Recurrence**:  
    At each timestep $t < T-1$, $\beta(t, s)$ is computed by summing the probabilities of transitioning from the current state to all valid next states:
 
-   $$
-   \beta(t, s) = P(x_t = \text{label at } s) \cdot \Big(
-       \beta(t+1, s) +
-       \beta(t+1, s+1) +
-       \beta(t+1, s+2) \text{ (if valid)}
-   \Big).
-   $$
+$$
+\beta(t, s) = P(x_t = \text{label at } s) \cdot \Big(
+   \beta(t+1, s) +
+   \beta(t+1, s+1) +
+   \beta(t+1, s+2) \text{ (if valid)}
+\Big).
+$$
 
 3. **Use in Training**:  
    The backward probabilities are combined with forward probabilities to compute **posteriors** at each timestep, which are crucial for evaluating the gradient of the CTC loss:
 
-   $$
-   \text{Posterior}(t, s) = \frac{\alpha(t, s) \cdot \beta(t, s)}{P(Y \mid X)}.
-   $$
+$$
+\text{Posterior}(t, s) = \frac{\alpha(t, s) \cdot \beta(t, s)}{P(Y \mid X)}.
+$$
 
 ---
 
@@ -134,11 +134,11 @@ The **backward algorithm** computes the total probability of completing the sequ
 1. **Gradient Computation**:  
    The gradient of the CTC loss with respect to the network’s predicted probabilities $P(x_t = v)$ is given by:
 
-   $$
-   \frac{\partial \text{Loss}}{\partial P(x_t = v)} 
-     = P(x_t = v) 
-       - \sum_{s \in \text{States}(v)} \text{Posterior}(t, s),
-   $$
+$$
+\frac{\partial \text{Loss}}{\partial P(x_t = v)} 
+ = P(x_t = v) 
+   - \sum_{s \in \text{States}(v)} \text{Posterior}(t, s),
+$$
 
    where $\text{States}(v)$ refers to all states in the extended label sequence that emit the symbol $v$.
 
